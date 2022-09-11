@@ -1,31 +1,52 @@
 import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { UserEntity } from "src/entity/Users.entity";
+import { Repository } from "typeorm";
 import { UsersDto } from './users.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export  class UsersServices {
-    private users: UsersDto[] = [
-        {
-            name:"Kirill",
-            email:"hello@gmail.com",
-            password: "111111"
+    constructor(
+        @InjectRepository(UserEntity) 
+        private user: Repository<UserEntity>
+    ) {}
+
+    public getAll(): Promise<UsersDto[]> {
+        
+        return this.user.find()
+    }
+
+    public async get(params: Partial<UserEntity>): Promise<UserEntity | undefined> {
+        const password = params.password
+        delete params.password
+        const data = await this.user.findOne({ where: params })
+
+        if(data && bcrypt.compareSync(password, data.password)) {
+            return data
         }
-    ]
-
-    constructor() {}
-
-    public getAll() {
-        return this.users
+        
+        return;
     }
 
-    public find(email: string, password: string) {
-        return this.users.find((item) => item.email == email && item.password == password)
+
+    public async getById(id: number): Promise<UserEntity | undefined> {
+        return await this.user.findOne({ where: { id: id } })
     }
 
-    public findByEmail(email: string) {
-        return this.users.find((item) => item.email == email)
+    public create(user: UsersDto): Promise<UserEntity> {
+        const password = bcrypt.hashSync(user.password, 8)
+        return this.user.save({
+            ...user,
+            password: password
+        })
     }
 
-    public push(user: UsersDto) {
-        return this.users.push(user)
+    public update(user: UsersDto & { id: number }): Promise<UserEntity> {
+        const password = bcrypt.hashSync(user.password, 8)
+        return this.user.save({
+            ...user,
+            password: password
+        })
     }
 }

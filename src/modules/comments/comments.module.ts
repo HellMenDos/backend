@@ -1,24 +1,28 @@
 import { Module } from '@nestjs/common';
-import { QuestionsController } from './questions.controller';
+import { CommentsController } from './comments.controller';
 import { QuestionsServices } from '../../services/questions/questions.services';
 import { JwtServices } from '../../services/auth/jwt.services';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuestionsEntity } from '../../entity/Questions.entity';
 import { UsersServices } from '../../services/users/users.services';
 import { UserEntity } from '../../entity/Users.entity';
+import { CommentsServices } from 'src/services/comments/comments.services';
+import { CommentsEntity } from '../../entity/Comments.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       QuestionsEntity,
-      UserEntity
+      UserEntity,
+      CommentsEntity
     ])
   ],
   providers: [
-    QuestionsServices,
+    CommentsServices,
     JwtServices, 
-    UsersServices
+    UsersServices,
+    QuestionsServices
   ],
-  controllers: [QuestionsController]
+  controllers: [CommentsController]
 })
-export class QuestionsModule {}
+export class CommentsModule {}

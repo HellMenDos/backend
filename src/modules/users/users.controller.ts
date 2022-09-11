@@ -1,23 +1,29 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Put, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UsersServices } from '../../services/users/users.services';
 import { UsersDto } from '../../services/users/users.dto';
 import { AuthServices } from '../../services/auth/auth.services';
 import { JwtTokenGuard } from '../../services/auth/jwt-token.guard';
 import { JwtRefreshGuard } from '../../services/auth/jwt-refresh.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { ExcludeSerializer } from 'src/excludeSerializer';
 
+@ApiTags('users')
+@UseInterceptors(ExcludeSerializer)
 @Controller('users')
 export class UsersController {
     constructor(
         private users: UsersServices,
         private auth: AuthServices) {}
 
+
+    @UseGuards(JwtTokenGuard)
     @Get()
-    public getAll() {
+    public getAll(): Promise<UsersDto[] | undefined> {
         return this.users.getAll()
     }
 
     @Post('signin')
-    public signIn(@Body() { email, password }: UsersDto) {
+    public signIn(@Body() { email, password }: Omit<UsersDto, 'phone'>) {
         return this.auth.login(email, password)
     }
 
@@ -28,14 +34,23 @@ export class UsersController {
 
     @UseGuards(JwtRefreshGuard)
     @Post('refresh')
-    public refreshData(@Body('user') user: string) {
+    public refreshData(@Body('user') user: number) {
         return this.auth.refreshTokens(user)
     }
 
 
     @UseGuards(JwtTokenGuard)
     @Get('me')
-    public me() {
-        return this.users.getAll()
+    public me(@Body('user') id: number) {
+        return this.users.getById(id)
+    }
+
+    @UseGuards(JwtTokenGuard)
+    @Put('/:id')
+    public async update(@Body() data: UsersDto, @Param("id") id: number) {
+        return this.users.update({
+            ...data,
+            id
+        })
     }
 }

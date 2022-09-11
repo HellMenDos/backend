@@ -1,19 +1,19 @@
 import { ArrayMinSize, IsArray, IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 
-export class QuestionsDto {
+export class CommentsDto {
   @IsString()
   @IsNotEmpty()
-  public title: string;
+  public message: string;
 
   @IsString()
   @IsNotEmpty()
-  public describe: string;
-
-  @IsString()
-  @IsOptional()
-  public photo: string
+  public date: Date;
 
   @IsNumber()
   @IsNotEmpty()
   public user: number
+
+  @IsNumber()
+  @IsNotEmpty()
+  public question: number
 }

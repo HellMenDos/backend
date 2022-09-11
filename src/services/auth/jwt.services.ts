@@ -8,7 +8,7 @@ const SECRET_TOKEN_REFRESH = 'refresh'
 export class JwtServices {
     constructor() {}
 
-    public signData(data: string) {
+    public signData(data: number) {
         
         return {
             access_token: sign({ data }, SECRET_TOKEN_ACCESS, { expiresIn: '1h' }),
@@ -26,10 +26,11 @@ export class JwtServices {
     }
 
     public verifyDataRefresh(data: string) {
+        console.log(data,'ddd')
         try {
             return verify(data,SECRET_TOKEN_REFRESH)
         }catch(error) {
-            console.log('Error with token')
+            console.log('Error with token',error)
             return null
         }
     }

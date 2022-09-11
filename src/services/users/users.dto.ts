@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { ArrayMinSize, IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UsersDto {
@@ -8,9 +9,14 @@ export class UsersDto {
   @IsString()
   @IsNotEmpty()
   public email: string;
+  
+  @IsString()
+  @IsNotEmpty()
+  public phone: string;
 
   @IsString()
   @IsNotEmpty()
+  @Exclude()
   public password: string;
 
 }

@@ -9,11 +9,10 @@ export  class AuthServices {
         private user: UsersServices,
         private jwt: JwtServices) {}
 
-    public login(email: string, password: string) {
-        const user = this.user.find(email,password)
-
+    public async login(email: string, password: string) {
+        const user = await this.user.get({ email, password })
         if(user) {
-            return this.jwt.signData(email)
+            return this.jwt.signData(user.id)
         }else {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,
@@ -22,16 +21,16 @@ export  class AuthServices {
         }
     }
 
-    public registration({email, password, name}: UsersDto) {
-        this.user.push({email, password, name})
-        return this.jwt.signData(email)
+    public async registration({email, password, name, phone}: UsersDto) {
+        const userData = await this.user.create({email, password, name, phone})
+        return this.jwt.signData(userData.id)
     }
 
-    public refreshTokens(email: string) {
-        const user = this.user.findByEmail(email)
+    public async refreshTokens(id: number) {
+        const user = await this.user.getById(id)
         
         if(user) {
-            return this.jwt.signData(email)
+            return this.jwt.signData(user.id)
         }else {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,
