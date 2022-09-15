@@ -27,9 +27,24 @@ export class UsersController {
         return this.auth.login(email, password)
     }
 
+    @Post('forget')
+    public forget(@Body() { email }: { email: string }) {
+        return this.auth.forget(email)
+    }
+
     @Post('signup')
     public signUp(@Body() user: UsersDto) {
         return this.auth.registration(user)
+    }
+
+    @Get('verify/:token')
+    public async verify(@Param('token') token: string) {
+        console.log(token);
+        if(await this.auth.verify(token)) {
+            return 'User verified'
+        }else {
+            return 'Something wrong'
+        }
     }
 
     @UseGuards(JwtRefreshGuard)
@@ -46,11 +61,11 @@ export class UsersController {
     }
 
     @UseGuards(JwtTokenGuard)
-    @Put('/:id')
-    public async update(@Body() data: UsersDto, @Param("id") id: number) {
+    @Put('me')
+    public async update(@Body() data: UsersDto & { user: number }) {
         return this.users.update({
             ...data,
-            id
+            id: data.user
         })
     }
 }

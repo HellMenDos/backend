@@ -22,6 +22,4 @@ export class QuestionsEntity extends BaseEntity {
   @ManyToOne(() => UserEntity, (user) => user.questions)
   user: UserEntity
 
-  @OneToMany(() => CommentsEntity, (commnets) => commnets.question)
-  comments: CommentsEntity[]
 }

@@ -18,26 +18,14 @@ export class JwtRefreshGuard implements CanActivate {
       const data = this.jwt.verifyDataRefresh(token.trim())
 
       if(data) {
-        if(data.exp * 1000 > new Date().getTime()) {
-          request.body['user'] = data.data
-          return true;
-        }else {
-          throw new HttpException({
-            status: HttpStatus.FORBIDDEN,
-            error: 'Token expired',
-          }, 404);
-        }
-      }else {
-        throw new HttpException({
-          status: HttpStatus.FORBIDDEN,
-          error: 'Invalid token',
-        }, 403);
+        request.body['user'] = data.data
+        return true;
       }
     }else {
       throw new HttpException({
         status: HttpStatus.FORBIDDEN,
         error: 'Needed token',
-      }, 403);
+      }, 402);
     }
   }
 }

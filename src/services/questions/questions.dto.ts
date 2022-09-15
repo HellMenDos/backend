@@ -14,6 +14,6 @@ export class QuestionsDto {
   public photo: string
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   public user: number
 }

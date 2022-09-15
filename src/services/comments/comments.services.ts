@@ -30,23 +30,19 @@ export class CommentsServices {
     
     public async create(data: CommentsDto): Promise<CommentsEntity> {
         const user = await this.user.getById(data.user)
-        const question = await this.question.getById(data.question)
 
         return this.comment.save({
             ...data,
             user: user,
-            question: question
         })
     }
 
     public async update(data: CommentsDto & { id: number }): Promise<CommentsEntity> {
         const user = await this.user.getById(data.user)
-        const question = await this.question.getById(data.question)
 
         return this.comment.save({
             ...data,
             user: user,
-            question: question
         })
     }
 }

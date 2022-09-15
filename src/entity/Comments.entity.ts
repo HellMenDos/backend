@@ -16,7 +16,7 @@ export class CommentsEntity extends BaseEntity {
   @Column({ default: new Date() })
   date: Date;
 
-  @ManyToOne(() => QuestionsEntity, (user) => user.comments)
-  question: QuestionsEntity
+  @Column()
+  questionId: string
 
 }

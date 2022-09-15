@@ -15,6 +15,7 @@ export class CommentsController {
         private user: UsersServices
     ) {}
 
+    @UseGuards(JwtTokenGuard)
     @Get()
     public async getAll(@Body('user') userId: number) {
         const user = await this.user.getById(userId)

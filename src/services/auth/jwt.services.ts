@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { sign,verify } from 'jsonwebtoken';
 
 const SECRET_TOKEN_ACCESS = 'access'
@@ -12,7 +12,7 @@ export class JwtServices {
         
         return {
             access_token: sign({ data }, SECRET_TOKEN_ACCESS, { expiresIn: '1h' }),
-            refresh_token: sign({ data }, SECRET_TOKEN_REFRESH, { expiresIn: '30d' }),
+            refresh_token: sign({ data }, SECRET_TOKEN_REFRESH, { expiresIn: '2d' }),
         }
     }
 
@@ -20,18 +20,35 @@ export class JwtServices {
         try {
             return verify(data,SECRET_TOKEN_ACCESS)
         }catch(error) {
-            console.log('Error with token')
-            return null
+            if (error.expiredAt) {
+                throw new HttpException({
+                    status: HttpStatus.FORBIDDEN,
+                    error: 'Token expired',
+                  }, 401);
+            }else {
+                throw new HttpException({
+                    status: HttpStatus.FORBIDDEN,
+                    error: 'Invalid token',
+                }, 403);
+            }
         }
     }
 
     public verifyDataRefresh(data: string) {
-        console.log(data,'ddd')
         try {
             return verify(data,SECRET_TOKEN_REFRESH)
         }catch(error) {
-            console.log('Error with token',error)
-            return null
+            if (error.expiredAt) {
+                throw new HttpException({
+                    status: HttpStatus.FORBIDDEN,
+                    error: 'Token expired',
+                  }, 401);
+            }else {
+                throw new HttpException({
+                    status: HttpStatus.FORBIDDEN,
+                    error: 'Invalid token',
+                }, 403);
+            }
         }
     }
 }

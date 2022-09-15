@@ -16,7 +16,6 @@ export class UsersDto {
 
   @IsString()
   @IsNotEmpty()
-  @Exclude()
   public password: string;
 
 }
