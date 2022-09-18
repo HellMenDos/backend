@@ -23,8 +23,8 @@ export class CommentsController {
     }
 
     @Get('/:id')
-    public async getOne(@Param("id") id: number) {
-        return this.comments.getById(id)
+    public async get(@Param("id") id: string) {
+        return this.comments.get({ questionId: id })
     }
     
     @UseGuards(JwtTokenGuard)

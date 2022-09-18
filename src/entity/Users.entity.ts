@@ -34,7 +34,7 @@ export class UserEntity extends BaseEntity {
   @OneToMany(() => QuestionsEntity, (question) => question.user)
   questions: QuestionsEntity[]
 
-  @OneToMany(() => CommentsEntity, (commnets) => commnets.question)
+  @OneToMany(() => CommentsEntity, (commnets) => commnets.user)
   comments: CommentsEntity[]
 
   @OneToMany(() => FavouriteEntity, (favourite) => favourite.user)

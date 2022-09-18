@@ -16,7 +16,7 @@ export class CommentsEntity extends BaseEntity {
   @Column({ default: new Date() })
   date: Date;
 
-  @Column()
+  @Column({ default: '' })
   questionId: string
 
 }

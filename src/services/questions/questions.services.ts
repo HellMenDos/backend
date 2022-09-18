@@ -19,7 +19,7 @@ export  class QuestionsServices {
     }
 
     public async get(params: Partial<QuestionsEntity>): Promise<QuestionsEntity | undefined> {
-        return await this.question.findOne({ where: params, relations: ['user'] })
+        return await this.question.findOne({ where: params, relations: ['user','favourite'] })
     }
 
     public async getById(id: number): Promise<QuestionsEntity | undefined> {

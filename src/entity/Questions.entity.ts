@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, BaseEntity } from 'typeorm';
 import { UserEntity } from './Users.entity';
 import { CommentsEntity } from './Comments.entity';
+import { FavouriteEntity } from './Favourite.entity';
 
 @Entity('questions')
 export class QuestionsEntity extends BaseEntity {

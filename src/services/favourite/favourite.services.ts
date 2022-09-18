@@ -20,33 +20,26 @@ export class FavouritesServices {
         return this.favourite.find({ relations: ['user'] })
     }
 
-    public async get(params: Partial<FavouriteEntity>): Promise<FavouriteEntity | undefined> {
-        return await this.favourite.findOne({ where: params })
+    public async get(params: Partial<FavouriteEntity>): Promise<FavouriteEntity[] | undefined> {
+        return await this.favourite.find({ where: params, relations: ['user'] })
     }
 
     public async getById(id: number): Promise<FavouriteEntity | undefined> {
         return await this.favourite.findOne({ where: { id: id } })
     }
+
     
     public async create(data: FavouriteDto): Promise<FavouriteEntity> {
         const user = await this.user.getById(data.user)
-        const question = await this.question.getById(data.question)
-
+        
         return this.favourite.save({
             ...data,
             user: user,
-            question: question
         })
     }
 
-    public async update(data: FavouriteDto & { id: number }): Promise<FavouriteEntity> {
-        const user = await this.user.getById(data.user)
-        const question = await this.question.getById(data.question)
-
-        return this.favourite.save({
-            ...data,
-            user: user,
-            question: question
-        })
+    public async delete(id: number) {
+        return await this.favourite.delete({ id })
     }
+
 }

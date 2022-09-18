@@ -15,5 +15,5 @@ export class CommentsDto {
 
   @IsNumber()
   @IsNotEmpty()
-  public question: string
+  public questionId: string
 }

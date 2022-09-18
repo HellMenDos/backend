@@ -20,8 +20,8 @@ export class CommentsServices {
         return this.comment.find({ relations: ['user'] })
     }
 
-    public async get(params: Partial<CommentsEntity>): Promise<CommentsEntity | undefined> {
-        return await this.comment.findOne({ where: params })
+    public async get(params: Partial<CommentsEntity>): Promise<CommentsEntity[] | undefined> {
+        return await this.comment.find({ where: params, relations: ['user'] })
     }
 
     public async getById(id: number): Promise<CommentsEntity | undefined> {

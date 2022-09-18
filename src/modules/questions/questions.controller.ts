@@ -63,7 +63,6 @@ export class QuestionsController {
       )    
     @Post()
     public async create(@Body() data: QuestionsDto, @UploadedFile() file) {
-        console.log(file)
         return this.questions.create({
             user: data.user,
             title: data.title,

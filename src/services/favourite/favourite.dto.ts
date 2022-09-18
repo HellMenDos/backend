@@ -11,5 +11,5 @@ export class FavouriteDto {
 
   @IsNumber()
   @IsNotEmpty()
-  public question: number
+  public questionId: string
 }

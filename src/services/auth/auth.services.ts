@@ -14,7 +14,6 @@ export  class AuthServices {
 
     public async verify(token: string): Promise<boolean> {
         const user = await this.user.getByToken(token)
-        console.log(user)
         if(user) {
             user.verify = true
             user.verifyToken = ''

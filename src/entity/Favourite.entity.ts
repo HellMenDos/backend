@@ -14,6 +14,6 @@ export class FavouriteEntity extends BaseEntity {
   @Column({ default: new Date() })
   date: Date;
 
-  @ManyToOne(() => QuestionsEntity, (user) => user.comments)
-  question: QuestionsEntity
+  @Column({ default: '' })
+  questionId: string
 }

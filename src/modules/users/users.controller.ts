@@ -39,7 +39,6 @@ export class UsersController {
 
     @Get('verify/:token')
     public async verify(@Param('token') token: string) {
-        console.log(token);
         if(await this.auth.verify(token)) {
             return 'User verified'
         }else {
