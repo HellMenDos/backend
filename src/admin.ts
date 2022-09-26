@@ -7,6 +7,7 @@ import { CommentsEntity } from './entity/Comments.entity';
 import { QuestionsEntity } from './entity/Questions.entity';
 import { FavouriteEntity } from './entity/Favourite.entity';
 import * as bcrypt from 'bcrypt';
+import { SupportsEntity } from './entity/Support.entity';
 
 AdminBro.registerAdapter({ Database, Resource });
 
@@ -54,9 +55,14 @@ const FavouriteResource: ResourceWithOptions = {
   options: {},
 };
 
+const SupportsResource: ResourceWithOptions = {
+  resource: SupportsEntity,
+  options: {},
+};
+
 export async function setupAdminPanel(app: INestApplication): Promise<void> {
   const adminBro = new AdminBro({
-    resources: [UserResource, ComentsResource,QuestionsResource, FavouriteResource],        
+    resources: [UserResource, ComentsResource,QuestionsResource, FavouriteResource, SupportsResource],        
     rootPath: '/admin',   
   });
   

@@ -14,12 +14,12 @@ export  class QuestionsServices {
         private user: UsersServices
     ) {}
 
-    public getAll(): Promise<QuestionsEntity[] | []> {
-        return this.question.find({ relations: ['user'] })
+    public getAll(params: Partial<QuestionsEntity>): Promise<QuestionsEntity[] | []> {
+        return this.question.find({ where: params, relations: ['user'], order: { id: 'DESC' }  })
     }
 
     public async get(params: Partial<QuestionsEntity>): Promise<QuestionsEntity | undefined> {
-        return await this.question.findOne({ where: params, relations: ['user','favourite'] })
+        return await this.question.findOne({ where: params, relations: ['user'] })
     }
 
     public async getById(id: number): Promise<QuestionsEntity | undefined> {
@@ -34,11 +34,7 @@ export  class QuestionsServices {
         })
     }
 
-    public async update(data: QuestionsDto & { id: number }): Promise<QuestionsEntity> {
-        const user = await this.user.getById(data.user)
-        return this.question.save({
-            ...data,
-            user: user
-        })
+    public async delete(id: number) {
+        return await this.question.delete({ id })
     }
 }

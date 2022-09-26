@@ -1,7 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity } from 'typeorm';
 import { UserEntity } from './Users.entity';
-import { CommentsEntity } from './Comments.entity';
-import { FavouriteEntity } from './Favourite.entity';
 
 @Entity('questions')
 export class QuestionsEntity extends BaseEntity {
@@ -16,6 +14,12 @@ export class QuestionsEntity extends BaseEntity {
 
   @Column()
   describe: string;
+
+  @Column({ default: '' })
+  tech: string;
+
+  @Column({ default: '' })
+  lang: string;
 
   @Column()
   photo: string;

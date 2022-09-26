@@ -1,9 +1,10 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Put, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UsersServices } from '../../services/users/users.services';
 import { UsersDto } from '../../services/users/users.dto';
 import { AuthServices } from '../../services/auth/auth.services';
 import { JwtTokenGuard } from '../../services/auth/jwt-token.guard';
 import { JwtRefreshGuard } from '../../services/auth/jwt-refresh.guard';
+
 import { ApiTags } from '@nestjs/swagger';
 import { ExcludeSerializer } from 'src/excludeSerializer';
 

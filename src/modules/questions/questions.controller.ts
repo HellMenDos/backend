@@ -1,15 +1,16 @@
-import { Body, Controller, Get, Param, Post, Put, Res, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Headers, UploadedFile, UseGuards, UseInterceptors, Delete } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
+import { JwtServices } from '../../services/auth/jwt.services';
 import { QuestionsServices } from '../../services/questions/questions.services';
 import { JwtTokenGuard } from '../../services/auth/jwt-token.guard';
 import { QuestionsDto } from '../../services/questions/questions.dto';
 import { UsersServices } from '../../services/users/users.services';
-import { UserEntity } from '../../entity/Users.entity';
-import { ApiTags } from '@nestjs/swagger';
+
 import { ExcludeSerializer } from 'src/excludeSerializer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { extname, join } from 'path';
+import { extname } from 'path';
 import { diskStorage } from 'multer';
-import { createReadStream } from 'fs';
 
 
 
@@ -36,13 +37,15 @@ export const editFileName = (req, file, callback) => {
 export class QuestionsController {
     constructor(
         private questions: QuestionsServices,
-        private user: UsersServices) {}
+        private user: UsersServices,
+        private jwt: JwtServices) {}
 
     @UseGuards(JwtTokenGuard)
     @Get()
     public async getAll(@Body('user') userId: number) {
         const user = await this.user.getById(userId)
-        return this.questions.get({ user: user })
+        console.log(user)
+        return this.questions.getAll({ user: user })
     }
 
     @Get('/:id')
@@ -51,7 +54,6 @@ export class QuestionsController {
     }
 
 
-    @UseGuards(JwtTokenGuard)
     @UseInterceptors(
         FileInterceptor('photo', {
           storage: diskStorage({
@@ -61,23 +63,26 @@ export class QuestionsController {
           fileFilter: imageFileFilter,
         }),
       )    
+    @UseGuards(JwtTokenGuard)
     @Post()
-    public async create(@Body() data: QuestionsDto, @UploadedFile() file) {
+    public async create(
+      @Body() data: QuestionsDto, 
+      @UploadedFile() file,
+      @Headers() headers: Record <string, string>) {
+        const token = headers['authorization'].split('Token')[1].trim()
+        const user = this.jwt.verifyData(token.trim())
+
         return this.questions.create({
-            user: data.user,
-            title: data.title,
-            describe: data.describe,
+            ...data,
+            user: user.data,
             photo: file.originalname
         })
     }
 
     @UseGuards(JwtTokenGuard)
-    @Put('/:id')
-    public async update(@Body() data: QuestionsDto, @Param("id") id: number) {
-        return this.questions.update({
-            ...data,
-            id
-        })
+    @Delete('/:id')
+    public async delete(@Param('id') id: number) {
+        return this.questions.delete(id)
     }
 
 }

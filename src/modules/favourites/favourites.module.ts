@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuestionsEntity } from '../../entity/Questions.entity';
 import { UsersServices } from '../../services/users/users.services';
 import { UserEntity } from '../../entity/Users.entity';
-import { CommentsServices } from 'src/services/comments/comments.services';
 import { FavouriteEntity } from '../../entity/Favourite.entity';
 import { FavouritesServices } from '../../services/favourite/favourite.services';
 import { FavouritesController } from './favourites.controller';
