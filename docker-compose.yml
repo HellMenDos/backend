@@ -1,15 +1,54 @@
 version: '3.8'
 
 services:
-  db:
-    container_name: interview-backend
-    image: postgres:14.0-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=${TYPEORM_USERNAME}
-      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
-      - POSTGRES_DB=${TYPEORM_DATABASE}
+  api:
+    container_name: back
+    build:
+      context: ./back
+      dockerfile: Dockerfile
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./back:/app
+      - media_volume:/app/media/questions
     ports:
-      - ${TYPEORM_PORT}:${TYPEORM_PORT}
+      - 8081:4000
+    networks:
+      - ms_network
+    depends_on:
+      - db
+    restart: always
+    command: npm run start:dev
+
+  nginx:
+    build:
+      context: ./nginx
+        
+    volumes:
+      - media_volume:/app/media/questions
+      - ./front/build:/app/front
+    ports:
+      - 80:8000
+    depends_on:
+      - api
+    networks:
+      - ms_network
+
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=db_migration
+    networks:
+      - ms_network
+    ports:
+      - '5432:5432'
+
+volumes:
+  postgres_volume:
+  media_volume:
+
+
+networks:
+  ms_network:
