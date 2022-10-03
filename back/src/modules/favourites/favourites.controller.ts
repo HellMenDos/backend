@@ -27,7 +27,6 @@ export class FavouritesController {
         return await this.favourite.get({ user: user })
     }
 
-    @UseGuards(JwtTokenGuard)
     @Get('/:id')
     public async getOne(@Param("id") id: string) {
         return this.favourite.get({ questionId: id })
