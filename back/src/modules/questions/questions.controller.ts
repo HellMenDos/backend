@@ -57,7 +57,7 @@ export class QuestionsController {
     @UseInterceptors(
         FileInterceptor('photo', {
           storage: diskStorage({
-            destination: './media/questions/',
+            destination: './media/',
             filename: editFileName,
           }),
           fileFilter: imageFileFilter,
@@ -71,11 +71,11 @@ export class QuestionsController {
       @Headers() headers: Record <string, string>) {
         const token = headers['authorization'].split('Token')[1].trim()
         const user = this.jwt.verifyData(token.trim())
-
+        console.log(file)
         return this.questions.create({
             ...data,
             user: user.data,
-            photo: file.originalname
+            photo: file.filename
         })
     }
 

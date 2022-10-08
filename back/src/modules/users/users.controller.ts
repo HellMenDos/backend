@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Redirect, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UsersServices } from '../../services/users/users.services';
 import { UsersDto } from '../../services/users/users.dto';
 import { AuthServices } from '../../services/auth/auth.services';
@@ -39,13 +39,18 @@ export class UsersController {
     }
 
     @Get('verify/:token')
+    @Redirect('http://127.0.0.1', 302)
     public async verify(@Param('token') token: string) {
-        if(await this.auth.verify(token)) {
-            return 'User verified'
-        }else {
-            return 'Something wrong'
+        if(!(await this.auth.verify(token))) {
+            return { url: 'http://127.0.0.1/api/user/wrong' }
         }
     }
+
+    @Get('wrong')
+    public async wrong() {
+        return 'Произошла ошибка либо токен активирован'
+    }
+
 
     @UseGuards(JwtRefreshGuard)
     @Post('refresh')
