@@ -63,7 +63,7 @@ const SupportsResource: ResourceWithOptions = {
 export async function setupAdminPanel(app: INestApplication): Promise<void> {
   const adminBro = new AdminBro({
     resources: [UserResource, ComentsResource,QuestionsResource, FavouriteResource, SupportsResource],        
-    rootPath: '/admin',   
+    rootPath: '/api/admin',   
   });
   
   const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
