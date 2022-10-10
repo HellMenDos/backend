@@ -17,16 +17,19 @@ import { MailerModule } from '@nestjs-modules/mailer';
     FavouritesModule,
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.mail.ru',
-        port: 587,
-        secure: false,
+        host: 'smtp.beget.com',
+        port: 465,
+        secure: true,
         auth: {
-          user: "a.a-lito@mail.ru",
-          pass: "2kcjfyaBzfYMSpM5WqB4",
+          user: "alit@a-lit.ru",
+          pass: "2K8*inNU",
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       },
       defaults: {
-        from:'<a.a-lito@mail.ru>',
+        from:'<alit@a-lit.ru>',
       },
     }),
   ],
