@@ -18,7 +18,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     MailerModule.forRoot({
       transport: {
         host: 'smtp.mail.ru',
-        port: 587,
+        port: 465,
         secure: true,
         auth: {
           user: "a.a-lito@mail.ru",
