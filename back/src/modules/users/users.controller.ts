@@ -39,10 +39,10 @@ export class UsersController {
     }
 
     @Get('verify/:token')
-    @Redirect('http://127.0.0.1', 302)
+    @Redirect('https://a-lit.ru/', 302)
     public async verify(@Param('token') token: string) {
         if(!(await this.auth.verify(token))) {
-            return { url: 'http://127.0.0.1/api/user/wrong' }
+            return { url: 'https://a-lit.ru/api/user/wrong/' }
         }
     }
 

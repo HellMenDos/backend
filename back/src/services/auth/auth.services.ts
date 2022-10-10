@@ -70,13 +70,15 @@ export  class AuthServices {
 
     public async registration({email, password, name, phone}: UsersDto) {
         const userData = await this.user.create({email, password, name, phone})
-        this.mail.sendMail({
+        const sendData = this.mail.sendMail({
             to: userData.email, 
             from: 'poznkirill3@mail.ru',
             subject: 'Подтвердите ваш аккаунт', 
             text: 'Подтвердите ваш аккаунт по ссылке', 
-            html: `<a href="http://localhost:4000/users/verify/${userData.verifyToken}">Подтвердить</a>`, 
+            html: `<a href="https://a-lit.ru/api/users/verify/${userData.verifyToken}">Подтвердить</a>`, 
         })
+
+        console.log(sendData)
         return { create: true }
     }
 
