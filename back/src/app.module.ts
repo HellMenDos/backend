@@ -19,14 +19,14 @@ import { MailerModule } from '@nestjs-modules/mailer';
       transport: {
         host: 'smtp.mail.ru',
         port: 587,
-        secure: false,
+        secure: true,
         auth: {
-          user: "poznkirill3@mail.ru",
-          pass: "EmrMB0S2yyEx5MzEcVru",
+          user: "a.a-lito@mail.ru",
+          pass: "2kcjfyaBzfYMSpM5WqB4",
         },
       },
       defaults: {
-        from:'<poznkirill3@mail.ru>',
+        from:'<a.a-lito@mail.ru>',
       },
     }),
   ],
