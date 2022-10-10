@@ -78,7 +78,7 @@ export  class AuthServices {
             html: `<a href="https://a-lit.ru/api/users/verify/${userData.verifyToken}">Подтвердить</a>`, 
         })
 
-        console.log(sendData)
+        console.log(sendData, 'Data')
         return { create: true }
     }
 
