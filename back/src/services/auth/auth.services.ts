@@ -37,7 +37,7 @@ export  class AuthServices {
                 from: 'alit@a-lit.ru',
                 subject: 'Ваш новый пароль', 
                 text: 'Ваш новый пароль', 
-                html: `Пароль ${new_password}`, 
+                html: `Ваш новый пароль ${new_password}`, 
             }).then((data) => console.log(data))
             return { send: true }
         }else {
@@ -75,7 +75,7 @@ export  class AuthServices {
             from: 'alit@a-lit.ru',
             subject: 'Подтвердите ваш аккаунт', 
             text: 'Подтвердите ваш аккаунт по ссылке', 
-            html: `<a href="https://a-lit.ru/api/users/verify/${userData.verifyToken}">Подтвердить</a>`, 
+            html: `Подтвердите ваш аккаунт по ссылке - <a href="https://a-lit.ru/api/users/verify/${userData.verifyToken}">Подтвердить</a>`, 
         })
 
         console.log(sendData, 'Data')
