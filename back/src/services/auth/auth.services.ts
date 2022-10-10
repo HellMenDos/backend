@@ -34,7 +34,7 @@ export  class AuthServices {
 
             this.mail.sendMail({
                 to: user.email, 
-                from: 'poznkirill3@mail.ru',
+                from: 'alit@a-lit.ru',
                 subject: 'Ваш новый пароль', 
                 text: 'Ваш новый пароль', 
                 html: `Пароль ${new_password}`, 
@@ -72,7 +72,7 @@ export  class AuthServices {
         const userData = await this.user.create({email, password, name, phone})
         const sendData = await this.mail.sendMail({
             to: userData.email, 
-            from: 'poznkirill3@mail.ru',
+            from: 'alit@a-lit.ru',
             subject: 'Подтвердите ваш аккаунт', 
             text: 'Подтвердите ваш аккаунт по ссылке', 
             html: `<a href="https://a-lit.ru/api/users/verify/${userData.verifyToken}">Подтвердить</a>`, 
