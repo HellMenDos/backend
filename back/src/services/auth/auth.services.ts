@@ -70,7 +70,7 @@ export  class AuthServices {
 
     public async registration({email, password, name, phone}: UsersDto) {
         const userData = await this.user.create({email, password, name, phone})
-        const sendData = this.mail.sendMail({
+        const sendData = await this.mail.sendMail({
             to: userData.email, 
             from: 'poznkirill3@mail.ru',
             subject: 'Подтвердите ваш аккаунт', 
