@@ -25,6 +25,7 @@ services:
       - ./front/build:/app/front
     ports:
       - 443:443
+      - 80:80
     depends_on:
       - api
     networks:
